@@ -9,25 +9,25 @@ it('Testa se o topo da aplicação contém um conjunto fixo de links de navegaç
   const links = [...getByRole('navigation').children];
   const linkText = ['Home', 'About', 'Favorite Pokémons'];
 
-  links.map((element, index) => {
+  links.forEach((element, index) => {
     expect(element).toBeInTheDocument();
-    // console.log(element.textContent);
     expect(element.textContent).toBe(linkText[index]);
   });
 });
 
-it('Testa se a aplicação é redirecionada para a página inicial,\n na URL "/" ao clicar no link Home da barra de navegação.', () => {
+const text1 = 'Testa se a aplicação é redirecionada para a página inicial,\n';
+const text2 = 'na URL "/" ao clicar no link Home da barra de navegação.';
+it(text1 + text2, () => {
   const { history, getByRole } = renderWithRouter(<App />);
   const links = [...getByRole('navigation').children];
   const pathNames = ['/', '/about', '/favorites'];
-  links.map((element, index) => {
+  links.forEach((element, index) => {
     userEvent.click(element);
     const { pathname } = history.location;
-    console.log('path: ', pathname);
     expect(pathname).toBe(pathNames[index]);
   });
   history.push('/not-foud');
-  const textNotFound = screen.getByRole('heading', {level: 2});
+  const textNotFound = screen.getByRole('heading', { level: 2 });
   expect(textNotFound).toBeInTheDocument();
   expect(textNotFound.textContent).toBe('Page requested not found 😭');
 });

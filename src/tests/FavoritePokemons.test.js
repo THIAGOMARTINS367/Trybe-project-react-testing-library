@@ -4,14 +4,21 @@ import renderWithRouter from './renderWithRouter';
 import FavoritePokemons from '../components/FavoritePokemons';
 import App from '../App';
 
-it('Testa se é exibido na tela a mensagem "No favorite pokemon found",\n se a pessoa não tiver pokémons favoritos.', () => {
+const text1 = 'Testa se é exibido na tela a mensagem "No favorite pokemon found",\n';
+const text2 = 'se a pessoa não tiver pokémons favoritos.';
+it(text1 + text2, () => {
   const { queryByText } = renderWithRouter(<FavoritePokemons />);
   const messageParagraph = queryByText('No favorite pokemon found');
   expect(messageParagraph).toBeInTheDocument();
 });
 
-it('Teste se é exibido todos os cards de pokémons favoritados.', () => {
-  const { history, getByRole, getAllByTestId, getByLabelText } = renderWithRouter(<App />);
+it('Testa se exibi todos os cards de pokémons favoritados.', () => {
+  const {
+    history,
+    getByRole,
+    getAllByTestId,
+    getByLabelText,
+  } = renderWithRouter(<App />);
   history.push('/pokemons/25');
   const favoriteCheckbox = getByLabelText('Pokémon favoritado?');
   userEvent.click(favoriteCheckbox);
@@ -39,7 +46,7 @@ it('Teste se é exibido todos os cards de pokémons favoritados.', () => {
     },
   };
   const typesAndAverageWeights = Object.values(favoritePokemons);
-  namesOfPokemons.map((element, index) => {
+  namesOfPokemons.forEach((element, index) => {
     expect(element.textContent).toBe(Object.keys(favoritePokemons)[index]);
     const pokemonFeature = {
       type: pokemonsTypes[index].textContent,
